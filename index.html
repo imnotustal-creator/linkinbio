@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pettanko | bio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <!-- Кастомный курсор -->
+    <div class="cursor"></div>
+
+    <!-- Видео фон (YouTube) -->
+    <div class="video-background">
+        <iframe src="https://www.youtube.com/embed/ССЫЛКА_НА_ВИДЕО?autoplay=1&mute=1&loop=1&playlist=ID_ВИДЕО&controls=0&showinfo=0" frameborder="0" allow="autoplay; encrypted-media"></iframe>
+    </div>
+
+    <div class="overlay"></div>
+
+    <main class="glass-card">
+        <!-- Аудио и кнопка -->
+        <audio id="bg-audio" loop>
+            <source src="music.mp3" type="audio/mpeg">
+        </audio>
+        
+        <div class="controls">
+            <button id="play-pause"><i class="fas fa-play"></i></button>
+        </div>
+
+        <!-- Профиль -->
+        <div class="profile">
+            <div class="avatar-container">
+                <img src="avatar.png" alt="avatar" class="avatar" id="discord-avatar">
+                <div class="status-dot" id="discord-status"></div>
+            </div>
+            <h1 class="nickname">pettanko</h1>
+            <p class="location"><i class="fas fa-map-marker-alt"></i> Poland</p>
+            
+            <div class="discord-info" id="discord-info">
+                <span id="discord-name">Loading...</span>
+                <div class="badges" id="discord-badges"></div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Текст песни -->
+        <div class="lyrics-container">
+            <div class="lyrics-scroll" id="lyrics">
+                <p>I'm growing up, it's puberty...</p>
+                <p>I'm not the same as I used to be...</p>
+                <p>Everything is changing fast...</p>
+                <p>Hope the good things always last...</p>
+            </div>
+        </div>
+
+        <!-- Футер со счетчиком -->
+        <div class="footer">
+            <div class="views">
+                <i class="fas fa-eye"></i> 
+                <img src="https://hits.dwyl.com/pettanko/repo-name.svg" alt="Views">
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
