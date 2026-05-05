@@ -2,157 +2,219 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pettanko | bio</title>
+    <!-- Иконки и Шрифты -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+        :root {
+            --bg-black: #050505;
+            --card-bg: rgba(10, 10, 10, 0.4);
+            --accent-white: rgba(255, 255, 255, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: rgba(0, 0, 0, 0.8);
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background: var(--bg-black); color: #fff; font-family: 'Space Grotesk', sans-serif; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        body {
-            background: #000;
-            color: #fff;
-            font-family: 'Space Grotesk', sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* Фон и частицы */
+        canvas { position: fixed; top: 0; left: 0; z-index: 10; pointer-events: none; }
+        
+        .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
+        .video-container iframe { width: 100vw; height: 100vh; transform: scale(1.5); filter: brightness(0.4) grayscale(1); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 20%, #000 120%); z-index: -1; }
+
+        /* Карточка как на guns.lol */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 50px var(--shadow);
+            z-index: 20;
+            animation: slideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
             overflow: hidden;
         }
 
-        /* Видео фон с фиксом блокировки */
-        .video-background {
-            position: fixed;
-            top: 50%; left: 50%;
-            width: 100vw; height: 100vh;
-            transform: translate(-50%, -50%);
-            z-index: -2;
+        .card::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
             pointer-events: none;
         }
-        .video-background iframe {
-            width: 100vw; height: 56.25vw; /* 16:9 */
-            min-height: 100vh; min-width: 177.77vh;
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.1);
-        }
 
-        .overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%);
-            z-index: -1;
-        }
+        /* Профиль */
+        .avatar-container { position: relative; width: 110px; height: 110px; margin: 0 auto 20px; }
+        .main-avatar { width: 100%; height: 100%; border-radius: 50%; border: 1px solid var(--border); object-fit: cover; transition: 0.5s; }
+        .status-dot { position: absolute; bottom: 5px; right: 5px; width: 18px; height: 18px; border-radius: 50%; border: 3px solid #0a0a0a; background: #747f8d; }
 
-        /* Glass Card */
-        .glass-card {
-            background: rgba(10, 10, 10, 0.5);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            padding: 50px;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 0 100px rgba(0,0,0,0.9);
-            animation: fadeIn 1.2s ease-out;
-        }
+        .nickname { font-size: 32px; letter-spacing: 6px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        .loc { font-size: 13px; color: #666; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
-        .avatar {
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-            transition: 0.4s ease;
-        }
-        .avatar:hover { transform: scale(1.1); border-color: #fff; }
+        /* Плеер */
+        .player { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-bottom: 20px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
+        .play-toggle { background: none; border: none; color: #fff; font-size: 20px; transition: 0.3s; width: 30px; }
+        .play-toggle:hover { transform: scale(1.1); color: var(--accent-white); }
+        .volume-slider { width: 100%; height: 4px; appearance: none; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; }
+        .volume-slider::-webkit-slider-thumb { appearance: none; width: 12px; height: 12px; background: #fff; border-radius: 50%; }
 
-        .nickname { font-size: 38px; letter-spacing: 5px; font-weight: 700; margin-bottom: 5px; }
-        .location { font-size: 14px; color: #666; margin-bottom: 30px; }
+        /* Текст песни (Плавный Fade) */
+        .lyrics-wrap { height: 24px; margin: 15px 0; overflow: hidden; position: relative; }
+        .lyric-line { position: absolute; width: 100%; font-size: 14px; color: #888; opacity: 0; transform: translateY(10px); transition: 1s ease; }
+        .lyric-line.active { opacity: 1; transform: translateY(0); }
 
-        /* Lyrics */
-        .lyrics-box { height: 50px; margin: 20px 0; overflow: hidden; }
-        .lyric-line {
-            font-size: 15px; color: #aaa;
-            transition: 0.8s ease;
-            opacity: 0; transform: translateY(20px);
-            display: none;
-        }
-        .lyric-line.active { display: block; opacity: 1; transform: translateY(0); }
+        /* Discord Инфо */
+        .discord-status { font-size: 12px; color: #aaa; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; border: 1px solid var(--border); margin-top: 15px; }
 
-        /* Cursor */
-        .cursor {
-            width: 18px; height: 18px; background: #fff;
-            border-radius: 50%; position: fixed;
-            pointer-events: none; z-index: 9999;
-            mix-blend-mode: difference;
-        }
+        .views { margin-top: 25px; opacity: 0.5; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
-        .play-btn {
-            background: none; border: 1px solid rgba(255,255,255,0.1);
-            color: #fff; padding: 10px 20px; border-radius: 10px;
-            font-family: inherit; margin-bottom: 20px; transition: 0.3s;
-        }
-        .play-btn:hover { background: #fff; color: #000; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* Анимации */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="cursor"></div>
+    <canvas id="particles"></canvas>
 
-    <div class="video-background">
-        <!-- Тот самый ролик Blue Lock -->
-        <iframe src="https://www.youtube.com/embed/e_yUWgAzSjs?autoplay=1&mute=1&loop=1&playlist=e_yUWgAzSjs&controls=0&modestbranding=1&rel=0" frameborder="0"></iframe>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/e_yUWgAzSjs?autoplay=1&mute=1&loop=1&playlist=e_yUWgAzSjs&controls=0&showinfo=0&rel=0&iv_load_policy=3" frameborder="0"></iframe>
     </div>
-    
     <div class="overlay"></div>
 
-    <main class="glass-card">
-        <audio id="audio" loop src="music.mp3"></audio>
-        <button class="play-btn" id="pBtn">CLICK TO UNMUTE AUDIO</button>
+    <main class="card">
+        <div class="player">
+            <button id="pToggle" class="play-toggle"><i class="fas fa-play"></i></button>
+            <input type="range" id="volume" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
+            <audio id="audio" src="music.mp3" loop></audio>
+        </div>
 
-        <img src="avatar.png" class="avatar" alt="pettanko">
+        <div class="avatar-container">
+            <img src="avatar.png" id="ds-avatar" class="main-avatar" alt="pettanko">
+            <div class="status-dot" id="ds-dot"></div>
+        </div>
+
         <h1 class="nickname">pettanko</h1>
-        <p class="location">Poland</p>
+        <p class="loc"><i class="fa-solid fa-location-dot"></i> Poland</p>
 
-        <div class="lyrics-box" id="lBox">
+        <div class="lyrics-wrap" id="lContainer">
             <p class="lyric-line active">I'm growing up, it's puberty...</p>
             <p class="lyric-line">I'm not the same as I used to be...</p>
             <p class="lyric-line">Everything is changing fast...</p>
             <p class="lyric-line">Hope the good things always last...</p>
         </div>
 
-        <div style="margin-top: 20px;">
-            <img src="https://hits.dwyl.com/pettanko/bio.svg" alt="views">
+        <div class="discord-status" id="ds-status">
+            Connecting to Discord...
+        </div>
+
+        <div class="views">
+            <i class="fa-solid fa-eye"></i>
+            <img src="https://hits.dwyl.com/pettanko/linkinbio.svg" alt="Views">
         </div>
     </main>
 
     <script>
-        // Курсор
-        const crsr = document.querySelector('.cursor');
-        document.addEventListener('mousemove', e => {
-            crsr.style.left = e.clientX + 'px';
-            crsr.style.top = e.clientY + 'px';
+        // 1. ЧАСТИЦЫ (ЭФФЕКТ ПРАХА)
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = 'rgba(255,255,255,0.5)';
+                this.life = 1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= 0.015;
+                if (this.size > 0.1) this.size -= 0.05;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255,255,255,${this.life})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            for (let i = 0; i < 3; i++) {
+                particlesArray.push(new Particle(e.x, e.y));
+            }
         });
 
-        // Музыка
-        const a = document.getElementById('audio');
-        const b = document.getElementById('pBtn');
-        b.onclick = () => {
-            if(a.paused) { a.play(); b.innerText = "PAUSE MUSIC"; }
-            else { a.pause(); b.innerText = "PLAY MUSIC"; }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                if (particlesArray[i].life <= 0) {
+                    particlesArray.splice(i, 1); i--;
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // 2. МУЗЫКА И ЗВУК
+        const audio = document.getElementById('audio');
+        const pToggle = document.getElementById('pToggle');
+        const vSlider = document.getElementById('volume');
+
+        pToggle.onclick = () => {
+            if (audio.paused) {
+                audio.play();
+                pToggle.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                audio.pause();
+                pToggle.innerHTML = '<i class="fas fa-play"></i>';
+            }
         };
 
-        // Текст песни
+        vSlider.oninput = (e) => { audio.volume = e.target.value; };
+
+        // 3. ТЕКСТ ПЕСНИ (FADE)
         const lines = document.querySelectorAll('.lyric-line');
-        let i = 0;
+        let currentLine = 0;
         setInterval(() => {
-            lines[i].classList.remove('active');
-            i = (i + 1) % lines.length;
-            lines[i].classList.add('active');
-        }, 3500);
+            lines[currentLine].classList.remove('active');
+            currentLine = (currentLine + 1) % lines.length;
+            lines[currentLine].classList.add('active');
+        }, 4000);
+
+        // 4. DISCORD LANYARD
+        async function getDiscord() {
+            try {
+                const res = await fetch('https://api.lanyard.rest/v1/users/1131173686221754398');
+                const { data } = await res.json();
+                
+                const status = document.getElementById('ds-status');
+                const dot = document.getElementById('ds-dot');
+                
+                const colorMap = { online: '#43b581', dnd: '#f04747', idle: '#faa61a', offline: '#747f8d' };
+                dot.style.background = colorMap[data.discord_status];
+                
+                const activity = data.activities.find(a => a.type === 0);
+                status.innerText = activity ? `Playing: ${activity.name}` : data.discord_status.toUpperCase();
+            } catch (e) { console.log("Lanyard Error"); }
+        }
+        getDiscord();
+        setInterval(getDiscord, 15000);
     </script>
 </body>
 </html>
