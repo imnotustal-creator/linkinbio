@@ -7,17 +7,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --main-black: #050505; 
-            --glass: rgba(8, 8, 8, 0.25); 
+        :root {
+            --main-black: #050505;
+            --glass: rgba(8, 8, 8, 0.25);
             --glass-hover: rgba(15, 15, 15, 0.35);
-            --border: rgba(255, 255, 255, 0.06); 
+            --border: rgba(255, 255, 255, 0.06);
             --border-hover: rgba(255, 255, 255, 0.14);
             --glow: rgba(255, 255, 255, 0.03);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background: #000; color: #fff; font-family: 'Space Grotesk', sans-serif; height: 100vh; overflow: hidden; }
-
         /* SPLASH */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -25,20 +24,19 @@
             align-items: center; justify-content: center;
             transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .splash-text { 
+        .splash-text {
             letter-spacing: 12px; font-weight: 300; font-size: 13px;
-            animation: splashPulse 2.4s ease-in-out infinite; 
+            animation: splashPulse 2.4s ease-in-out infinite;
             color: rgba(255,255,255,0.5);
         }
         @keyframes splashPulse { 0%,100% { opacity: 0.2; transform: scale(0.98); } 50% { opacity: 0.7; transform: scale(1); } }
-
         /* BACKGROUND VIDEO */
         .bg-vid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
         .bg-vid iframe { width: 100vw; height: 100vh; transform: scale(1.4); filter: brightness(0.18) grayscale(1); }
-        .overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, #000 80%); 
-            z-index: -1; 
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, #000 80%);
+            z-index: -1;
         }
         /* subtle noise grain overlay */
         .overlay::after {
@@ -49,23 +47,20 @@
             pointer-events: none;
             z-index: 1;
         }
-
         /* CURSOR & PARTICLES */
         canvas#ash { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; }
-        .cursor { 
-            position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%; 
-            z-index: 10001; mix-blend-mode: difference; pointer-events: none; 
+        .cursor {
+            position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%;
+            z-index: 10001; mix-blend-mode: difference; pointer-events: none;
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
         }
         .cursor.hovering { width: 20px; height: 20px; background: rgba(255,255,255,0.5); }
-
         /* LAYOUT */
-        .container { 
-            height: 100vh; display: flex; align-items: center; justify-content: center; 
-            z-index: 50; position: relative; 
+        .container {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            z-index: 50; position: relative;
         }
-
         /* CARD */
         .card {
             background: var(--glass);
@@ -76,11 +71,11 @@
             padding: 44px 40px 36px;
             width: 420px;
             text-align: center;
-            box-shadow: 
+            box-shadow:
                 0 0 0 1px rgba(255,255,255,0.02) inset,
                 0 40px 80px rgba(0,0,0,0.8),
                 0 0 120px rgba(255,255,255,0.015);
-            transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), 
+            transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1),
                         border-color 0.5s ease,
                         box-shadow 0.7s ease;
             animation: cardIn 1.2s cubic-bezier(0.19, 1, 0.22, 1) both;
@@ -104,30 +99,28 @@
             transition: opacity 0.6s ease;
             opacity: 0;
         }
-        .card:hover { 
-            transform: translateY(-10px) scale(1.005); 
+        .card:hover {
+            transform: translateY(-10px) scale(1.005);
             border-color: var(--border-hover);
-            box-shadow: 
+            box-shadow:
                 0 0 0 1px rgba(255,255,255,0.04) inset,
                 0 60px 100px rgba(0,0,0,0.85),
                 0 0 150px rgba(255,255,255,0.03);
         }
         .card:hover::after { opacity: 1; }
-
         @keyframes cardIn {
             from { opacity: 0; transform: translateY(30px) scale(0.97); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
-
         /* AVATAR */
-        .avatar-wrap { 
-            position: relative; width: 110px; height: 110px; 
+        .avatar-wrap {
+            position: relative; width: 110px; height: 110px;
             margin: 0 auto 22px;
             animation: avatarIn 1.4s cubic-bezier(0.19, 1, 0.22, 1) 0.1s both;
         }
         @keyframes avatarIn {
             from { opacity: 0; transform: scale(0.8); }
-            to   { opacity: 1; transform: scale(1); }
+            to { opacity: 1; transform: scale(1); }
         }
         .avatar-ring {
             position: absolute; inset: -4px; border-radius: 50%;
@@ -135,33 +128,32 @@
             animation: ringRotate 6s linear infinite;
         }
         @keyframes ringRotate { to { transform: rotate(360deg); } }
-        .avatar { 
-            position: relative; width: 100%; height: 100%; border-radius: 50%; 
+        .avatar {
+            position: relative; width: 100%; height: 100%; border-radius: 50%;
             object-fit: cover; border: 1px solid var(--border);
             z-index: 1;
             transition: filter 0.4s ease;
         }
         .avatar:hover { filter: brightness(1.1); }
-        .status-dot { 
-            position: absolute; bottom: 8px; right: 8px; width: 16px; height: 16px; 
-            border-radius: 50%; border: 3px solid #050505; background: #747f8d; 
+        .status-dot {
+            position: absolute; bottom: 8px; right: 8px; width: 16px; height: 16px;
+            border-radius: 50%; border: 3px solid #050505; background: #747f8d;
             z-index: 2;
             transition: background 0.6s ease;
             box-shadow: 0 0 8px currentColor;
         }
-        .status-dot.online  { background: #43b581; box-shadow: 0 0 8px #43b58166; }
-        .status-dot.dnd     { background: #f04747; box-shadow: 0 0 8px #f0474766; }
-        .status-dot.idle    { background: #faa61a; box-shadow: 0 0 8px #faa61a66; }
+        .status-dot.online { background: #43b581; box-shadow: 0 0 8px #43b58166; }
+        .status-dot.dnd { background: #f04747; box-shadow: 0 0 8px #f0474766; }
+        .status-dot.idle { background: #faa61a; box-shadow: 0 0 8px #faa61a66; }
         .status-dot.offline { background: #747f8d; box-shadow: none; }
-
         /* NAME */
-        .name-container { 
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
+        .name-container {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
             margin-bottom: 6px;
             animation: fadeUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.3s both;
         }
-        .nickname { 
-            font-size: 30px; font-weight: 700; letter-spacing: 6px; 
+        .nickname {
+            font-size: 30px; font-weight: 700; letter-spacing: 6px;
             text-transform: uppercase;
             background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.6));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -176,13 +168,11 @@
             letter-spacing: 2px; animation: tooltipIn 0.2s ease both;
         }
         @keyframes tooltipIn { from { opacity: 0; transform: translateX(-50%) translateY(4px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
-
         .role-tag {
-            font-size: 9px; color: rgba(255,255,255,0.2); letter-spacing: 5px; 
+            font-size: 9px; color: rgba(255,255,255,0.2); letter-spacing: 5px;
             margin-bottom: 20px; text-transform: uppercase;
             animation: fadeUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.4s both;
         }
-
         /* DIVIDER */
         .divider {
             width: 40px; height: 1px;
@@ -191,29 +181,27 @@
             animation: dividerIn 1s ease 0.5s both;
         }
         @keyframes dividerIn { from { width: 0; opacity: 0; } to { width: 40px; opacity: 1; } }
-
         /* LINKS */
-        .links { 
+        .links {
             display: flex; justify-content: center; gap: 28px; margin-bottom: 24px;
             animation: fadeUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.5s both;
         }
-        .link-item { 
-            color: rgba(255,255,255,0.25); font-size: 22px; 
-            transition: color 0.35s ease, transform 0.35s cubic-bezier(0.19,1,0.22,1), filter 0.35s ease; 
+        .link-item {
+            color: rgba(255,255,255,0.25); font-size: 22px;
+            transition: color 0.35s ease, transform 0.35s cubic-bezier(0.19,1,0.22,1), filter 0.35s ease;
             display: flex; align-items: center; justify-content: center;
             width: 44px; height: 44px; border-radius: 12px;
             border: 1px solid transparent;
         }
-        .link-item:hover { 
-            color: #fff; transform: translateY(-4px) scale(1.15); 
+        .link-item:hover {
+            color: #fff; transform: translateY(-4px) scale(1.15);
             filter: drop-shadow(0 0 12px rgba(255,255,255,0.4));
             border-color: rgba(255,255,255,0.08);
             background: rgba(255,255,255,0.04);
         }
-
         /* LYRICS */
-        .lyrics-box { 
-            min-height: 52px; display: flex; align-items: center; justify-content: center; 
+        .lyrics-box {
+            min-height: 52px; display: flex; align-items: center; justify-content: center;
             margin-bottom: 12px;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.04);
@@ -221,118 +209,133 @@
             padding: 10px 16px;
             animation: fadeUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.6s both;
         }
-        #lyrics-text { 
-            font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; 
+        #lyrics-text {
+            font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase;
             letter-spacing: 1.8px; line-height: 1.6;
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
         #lyrics-text.fade { opacity: 0; transform: translateY(4px); }
-
         /* DISCORD ACTIVITY */
-        #dc-activity { 
-            font-size: 10px; color: rgba(255,255,255,0.22); margin-top: 8px; 
+        #dc-activity {
+            font-size: 10px; color: rgba(255,255,255,0.22); margin-top: 8px;
             min-height: 14px; text-transform: uppercase; letter-spacing: 2px;
             transition: opacity 0.5s ease;
             animation: fadeUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.7s both;
         }
-
         /* VIEWS */
-        .views { 
-            margin-top: 22px; opacity: 0.2; 
+        .views {
+            margin-top: 22px; opacity: 0.2;
             animation: fadeUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.8s both;
             transition: opacity 0.3s;
         }
         .views:hover { opacity: 0.4; }
-
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* MUSIC CONTROLS */
+        .music-controls {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            opacity: 0.75;
+        }
+        .music-controls button {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 18px;
+            cursor: none;
+            transition: all 0.3s ease;
+        }
+        .music-controls button:hover {
+            color: #fff;
+            transform: scale(1.15);
+        }
+        .volume-slider {
+            width: 90px;
+            accent-color: rgba(255,255,255,0.7);
         }
     </style>
 </head>
 <body>
-
 <div id="splash" onclick="init()">
     <div class="splash-text">CLICK TO UNLOCK</div>
 </div>
-
 <div class="cursor" id="cursor"></div>
 <canvas id="ash"></canvas>
-
 <div class="bg-vid">
     <iframe src="https://www.youtube.com/embed/e_yUWgAzSjs?autoplay=1&mute=1&loop=1&playlist=e_yUWgAzSjs&controls=0&showinfo=0&rel=0" frameborder="0" allow="autoplay"></iframe>
 </div>
-
 <!-- Music player container -->
 <div id="player" style="position:absolute;width:0;height:0;overflow:hidden;"></div>
-
 <div class="overlay"></div>
-
 <div class="container">
     <main class="card">
         <div class="avatar-wrap">
             <div class="avatar-ring"></div>
-            <img src="https://yt3.googleusercontent.com/Bkci2EwxZpc5lXCBD6sP2oEWNALIQVC77fH06Dmak8DLrOW-MXybnfCKhElcZD1BB6vVQNIsrA=s900-c-k-c0x00ffffff-no-rj" class="avatar" alt="pettanko">
+            <img src="avatar.png" class="avatar" alt="pettanko">
             <div class="status-dot" id="dot"></div>
         </div>
-
         <div class="name-container">
             <h1 class="nickname">pettanko</h1>
             <div class="verify"><i class="fas fa-check-circle"></i></div>
         </div>
         <p class="role-tag">DEVELOPER</p>
-
         <div class="divider"></div>
-
         <div class="links">
             <a href="https://steamcommunity.com/id/pettank0/" target="_blank" class="link-item"><i class="fab fa-steam"></i></a>
             <a href="https://discordapp.com/users/1131173686221754398" target="_blank" class="link-item"><i class="fab fa-discord"></i></a>
         </div>
-
         <div class="lyrics-box">
             <p id="lyrics-text">WAITING...</p>
         </div>
 
-        <div id="dc-activity">FETCHING DATA...</div>
+        <div class="music-controls">
+            <button id="playPauseBtn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="80" oninput="setVolume(this.value)">
+            <span id="volumeValue" style="font-size:10px; color:rgba(255,255,255,0.5);">80%</span>
+        </div>
 
+        <div id="dc-activity">FETCHING DATA...</div>
         <div class="views">
             <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fpettanko-bio.github.io&count_bg=%23000000&title_bg=%23000000&icon=&icon_color=%23E7E7E7&title=views&edge_flat=true" alt="Views">
         </div>
     </main>
 </div>
-
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
     /* ── CURSOR ────────────────────────────────── */
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', e => {
         cursor.style.left = e.clientX + 'px';
-        cursor.style.top  = e.clientY + 'px';
+        cursor.style.top = e.clientY + 'px';
         for (let i = 0; i < 4; i++) particles.push(new Ash(e.clientX, e.clientY));
     });
     document.querySelectorAll('a, button, .verify').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
     });
-
     /* ── ASH PARTICLES ─────────────────────────── */
     const canvas = document.getElementById('ash');
-    const ctx    = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     let particles = [];
-    canvas.width  = window.innerWidth;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     window.addEventListener('resize', () => {
-        canvas.width  = window.innerWidth;
+        canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     });
-
     class Ash {
         constructor(x, y) {
-            this.x  = x; this.y = y;
-            this.s  = Math.random() * 1.8 + 0.3;
+            this.x = x; this.y = y;
+            this.s = Math.random() * 1.8 + 0.3;
             this.vx = (Math.random() - 0.5) * 1.5;
             this.vy = Math.random() * -2.5 - 0.5;
-            this.a  = 0.7 + Math.random() * 0.3;
+            this.a = 0.7 + Math.random() * 0.3;
         }
         update() { this.x += this.vx; this.y += this.vy; this.vy += 0.04; this.a -= 0.018; }
         draw() {
@@ -340,7 +343,6 @@
             ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI * 2); ctx.fill();
         }
     }
-
     function render() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         particles = particles.filter(p => p.a > 0);
@@ -348,10 +350,10 @@
         requestAnimationFrame(render);
     }
     render();
-
     /* ── YOUTUBE IFRAME API ────────────────────── */
     let ytPlayer;
     let playerReady = false;
+    let isPlaying = false;
 
     function onYouTubeIframeAPIReady() {
         ytPlayer = new YT.Player('player', {
@@ -360,18 +362,41 @@
             videoId: 'fgEn4S7BVNI',
             playerVars: {
                 autoplay: 0,
-                loop:     1,
+                loop: 1,
                 playlist: 'fgEn4S7BVNI',
                 controls: 0,
-                rel:      0,
+                rel: 0,
             },
             events: {
-                onReady: () => { playerReady = true; },
+                onReady: () => { 
+                    playerReady = true; 
+                },
                 onStateChange: e => {
                     if (e.data === YT.PlayerState.ENDED) ytPlayer.playVideo();
+                    if (e.data === YT.PlayerState.PLAYING) isPlaying = true;
+                    if (e.data === YT.PlayerState.PAUSED) isPlaying = false;
                 }
             }
         });
+    }
+
+    /* ── MUSIC CONTROLS ────────────────────────── */
+    function togglePlay() {
+        if (!playerReady || !ytPlayer) return;
+        const btn = document.getElementById('playPauseBtn');
+        if (isPlaying) {
+            ytPlayer.pauseVideo();
+            btn.innerHTML = '<i class="fas fa-play"></i>';
+        } else {
+            ytPlayer.playVideo();
+            btn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+    }
+
+    function setVolume(value) {
+        if (!playerReady || !ytPlayer) return;
+        ytPlayer.setVolume(value);
+        document.getElementById('volumeValue').textContent = value + '%';
     }
 
     /* ── INIT (called on splash click) ─────────── */
@@ -379,7 +404,7 @@
         const splash = document.getElementById('splash');
         splash.style.opacity = '0';
         setTimeout(() => splash.remove(), 1200);
-
+        
         /* Try to play; retry until player is ready */
         const tryPlay = () => {
             if (playerReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
@@ -387,36 +412,42 @@
                 ytPlayer.setVolume(80);
                 ytPlayer.playVideo();
                 startLyrics();
+                document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
             } else {
                 setTimeout(tryPlay, 300);
             }
         };
         tryPlay();
-
         fetchDiscord();
         setInterval(fetchDiscord, 12000);
     }
-
     /* ── LYRICS ────────────────────────────────── */
     const lines = [
-        { t: 0,  txt: "YUNG FIMOZ & MIGAS — ЛАБУБУ" },
-        { t: 9,  txt: "Какой нахуй Лабубу? Сучка, закатай губу" },
-        { t: 12, txt: "Если ещё раз услышу, в жопу тебя отъебу" },
-        { t: 15, txt: "Хочешь выпить бабл-ти, но попьёшь моей кончи" },
-        { t: 18, txt: "На Айпаде мои фотки, сиди молча и дрочи" },
-        { t: 21, txt: "Эта сука — геншинфаг, весь в значках её рюкзак" },
-        { t: 24, txt: "Тупорылая пизда, чё у тебя, блять, в мозгах?" },
-        { t: 30, txt: "Если ты купил Лабубу, твою мать ебать я буду" },
-        { t: 33, txt: "Хагги Вагги и Лабубу, выебу тебя — забуду" }
+        { t: 0, txt: "YUNG FIMOZ & MIGAS — ЛАБУБУ" },
+        { t: 8, txt: "Ка-ка-ка-ка-ка-ка-какой, нахуй, Лабубу?" },
+        { t: 11, txt: "Сучка, закатай губу" },
+        { t: 13, txt: "Если ещё раз услышу, в жопу тебя отъебу" },
+        { t: 16, txt: "Хочешь выпить бабл-ти, но попьёшь моей кончи" },
+        { t: 19, txt: "На Айпаде мои фотки, сиди молча и дрочи" },
+        { t: 22, txt: "Эта сука — геншинфаг, весь в значках её рюкзак" },
+        { t: 25, txt: "Тупорылая пизда, чё у тебя, блять, в мозгах?" },
+        { t: 29, txt: "Эта сука — геншинфаг, весь в значках её рюкзак" },
+        { t: 32, txt: "Тупорылая пизда, чё у тебя, блять, в мозгах?" },
+        { t: 38, txt: "Е-е-если ты купил Лабубу, твою мать ебать я буду" },
+        { t: 41, txt: "Хагги Вагги и Лабубу, выебу тебя — забуду" },
+        { t: 44, txt: "Твою маму в рот ебу, не царапай, уебу" },
+        { t: 47, txt: "Потом на тебя насру и Лабубой подтеру" },
+        { t: 50, txt: "Насажу на хуй Лабубу за жвачку Хуба Бубу" },
+        { t: 53, txt: "Выебу с ДВ альтуху, как и твою маму шлюху" }
     ];
+
     let lastLine = null;
     let lyricsInterval = null;
-
     function startLyrics() {
         if (lyricsInterval) clearInterval(lyricsInterval);
         lyricsInterval = setInterval(() => {
             if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
-            const time    = ytPlayer.getCurrentTime();
+            const time = ytPlayer.getCurrentTime();
             const current = [...lines].reverse().find(l => time >= l.t);
             if (current && current !== lastLine) {
                 lastLine = current;
@@ -427,30 +458,27 @@
                     el.classList.remove('fade');
                 }, 400);
             }
-        }, 300);
+        }, 350);
     }
-
     /* ── DISCORD via Lanyard ───────────────────── */
     async function fetchDiscord() {
         const act = document.getElementById('dc-activity');
         const dot = document.getElementById('dot');
         try {
-            const res  = await fetch('https://api.lanyard.rest/v1/users/1131173686221754398');
+            const res = await fetch('https://api.lanyard.rest/v1/users/1131173686221754398');
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const { data } = await res.json();
-
             /* status dot */
             const statusMap = { online: 'online', dnd: 'dnd', idle: 'idle', offline: 'offline' };
             dot.className = 'status-dot ' + (statusMap[data.discord_status] || 'offline');
-
             /* activity text */
             act.style.opacity = '0';
             setTimeout(() => {
                 if (data.listening_to_spotify) {
-                    act.innerText = `♪  ${data.spotify.song} — ${data.spotify.artist}`;
+                    act.innerText = `♪ ${data.spotify.song} — ${data.spotify.artist}`;
                 } else if (data.activities && data.activities.length > 0) {
                     const name = data.activities[0].name;
-                    act.innerText = `▶  PLAYING ${name.toUpperCase()}`;
+                    act.innerText = `▶ PLAYING ${name.toUpperCase()}`;
                 } else {
                     const labels = { online: 'ONLINE', dnd: 'DO NOT DISTURB', idle: 'IDLE', offline: 'OFFLINE' };
                     act.innerText = labels[data.discord_status] || data.discord_status.toUpperCase();
